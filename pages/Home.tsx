@@ -45,7 +45,7 @@ const BrandIcon = ({ brandName }: { brandName: string }) => {
   const normalized = brandName.toLowerCase().replace(/\s+/g, "");
   return (
     <img
-      src={`https://cdn.simpleicons.org/${normalized}/currentColor`}
+      src={`https://cdn.simpleicons.org/${normalized}/000000`}
       className="size-5 dark:invert"
       alt={brandName}
       onError={() => setError(true)}
@@ -71,11 +71,7 @@ const ThinBanner = ({ banner, navigate }: { banner: any; navigate: any }) => {
       className="relative overflow-hidden rounded-2xl cursor-pointer hover-tilt w-full mb-14 border border-zinc-100 dark:border-zinc-800 shadow-sm"
       onClick={() => banner.link && navigate(banner.link)}
     >
-      <PixelImage
-        src={banner.imageUrl}
-        alt="banner"
-        grid="8x3"
-      />
+      <PixelImage src={banner.imageUrl} alt="banner" grid="8x3" />
 
       <div
         className="absolute top-3 right-3 z-20 flex items-center justify-end"
@@ -115,12 +111,10 @@ const ThinBanner = ({ banner, navigate }: { banner: any; navigate: any }) => {
   );
 };
 
-
-
-
 const Home: React.FC<{ userData?: any }> = ({ userData }) => {
   const { formatPrice } = useRegion();
-  const isAdmin = userData?.role === 'admin' || userData?.email === 'admin@vibe.shop';
+  const isAdmin =
+    userData?.role === "admin" || userData?.email === "admin@vibe.shop";
   const { isDark, toggleTheme } = useTheme();
   const [products, setProducts] = useState<Product[]>([]);
   const [banners, setBanners] = useState<any[]>([]);
@@ -140,7 +134,9 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
   );
   const popupBanners = banners.filter((b) => b.bannerType === "popup");
   const gifBanners = banners.filter((b) => b.bannerType === "gif");
-  const categoryBanners = banners.filter((b) => b.bannerType === "category" || b.bannerType === "profile");
+  const categoryBanners = banners.filter(
+    (b) => b.bannerType === "category" || b.bannerType === "profile",
+  );
   const bottomBanners = banners.filter((b) => b.bannerType === "bottom");
 
   useEffect(() => {
@@ -171,7 +167,7 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [referState, setReferState] = useState<string>('refer-idle');
+  const [referState, setReferState] = useState<string>("refer-idle");
 
   useEffect(() => {
     try {
@@ -320,8 +316,6 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
     return () => clearInterval(timer);
   }, [settings?.dealEndTime]);
 
-
-
   useEffect(() => {
     if (!settings?.featuredCategory) return;
     const featuredProds = products.filter(
@@ -352,7 +346,6 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
     setSearchResults(results);
   }, [searchQuery, products]);
 
-
   // Story progress logic
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -368,19 +361,37 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
   }, []);
 
   const brandLogos = useMemo(() => {
-    const uniqueBrands = Array.from(new Set(products.map(p => p.brand).filter(Boolean))) as string[];
+    const uniqueBrands = Array.from(
+      new Set(products.map((p) => p.brand).filter(Boolean)),
+    ) as string[];
     // Fill with default ones if there are no products holding brands
-    const defaultBrands = ["Apple", "Samsung", "Sony", "Dji", "Bose", "Anker", "Logitech", "Xiaomi", "Oppo", "Vivo", "Realme", "OnePlus"];
-    const displayBrands = uniqueBrands.length >= 6 ? uniqueBrands : Array.from(new Set([...uniqueBrands, ...defaultBrands]));
-    
+    const defaultBrands = [
+      "Apple",
+      "Samsung",
+      "Sony",
+      "Dji",
+      "Bose",
+      "Anker",
+      "Logitech",
+      "Xiaomi",
+      "Oppo",
+      "Vivo",
+      "Realme",
+      "OnePlus",
+    ];
+    const displayBrands =
+      uniqueBrands.length >= 6
+        ? uniqueBrands
+        : Array.from(new Set([...uniqueBrands, ...defaultBrands]));
+
     // Distribute nicely across 3 rows
     const numRows = 3;
     const itemsPerRow = Math.ceil(displayBrands.length / numRows);
-    
+
     return displayBrands.map((brand, idx) => {
       const rowNum = (idx % numRows) + 1;
       const rowIndex = Math.floor(idx / numRows);
-      
+
       return {
         label: brand,
         icon: <BrandIcon brandName={brand} />,
@@ -412,8 +423,6 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
       {/* <WelcomePopup banners={popupBanners} /> */}
       <CustomSectionEmbed location="home_top" />
 
-
-
       {/* Stories Section */}
       <div id="home-stories" className="mb-8 w-full">
         <StoryViewer stories={stories} isAdmin={isAdmin} />
@@ -421,9 +430,9 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
 
       {heroBanners.length > 0 && (
         <motion.div
-           id="home-hero"
-           ref={bannerContainerRef}
-           className="relative mb-6 -mx-4 md:mx-0 md:rounded-3xl overflow-hidden shadow-sm z-10 animate-stagger-2 group max-h-[160px] sm:max-h-[220px] md:max-h-[350px] lg:max-h-[450px] aspect-[21/9] w-full"
+          id="home-hero"
+          ref={bannerContainerRef}
+          className="relative mb-6 -mx-4 md:mx-0 md:rounded-3xl overflow-hidden shadow-sm z-10 animate-stagger-2 group max-h-[160px] sm:max-h-[220px] md:max-h-[350px] lg:max-h-[450px] aspect-[21/9] w-full"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -433,7 +442,10 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="absolute inset-0 bg-zinc-100 dark:bg-zinc-900 cursor-pointer"
-              onClick={() => heroBanners[activeBanner]?.link && navigate(heroBanners[activeBanner].link)}
+              onClick={() =>
+                heroBanners[activeBanner]?.link &&
+                navigate(heroBanners[activeBanner].link)
+              }
             >
               <img
                 src={heroBanners[activeBanner]?.imageUrl}
@@ -442,7 +454,7 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
               />
             </motion.div>
           </AnimatePresence>
-          
+
           {/* Dots Indicator */}
           {heroBanners.length > 1 && (
             <div className="absolute bottom-2 md:bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
@@ -456,7 +468,6 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
               ))}
             </div>
           )}
-
         </motion.div>
       )}
 
@@ -495,7 +506,10 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
                       <div className="col-span-3 md:col-span-2 p-6 md:p-10 flex flex-col justify-center h-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 relative">
                         <div className="absolute top-0 right-0 p-4 md:p-6">
                           <div className="mb-2">
-                            <StatusBadge leftIcon={Sparkles} leftLabel="Featured" />
+                            <StatusBadge
+                              leftIcon={Sparkles}
+                              leftLabel="Featured"
+                            />
                           </div>
                         </div>
                         <h4 className="text-lg md:text-lg lg:text-xl font-semibold mb-2 tracking-tight truncate w-full pr-4">
@@ -503,9 +517,11 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
                         </h4>
                         <div className="flex flex-wrap items-center gap-2 mb-6 md:mb-8 truncate w-full">
                           <p className="text-xl md:text-xl font-semibold text-zinc-800 dark:text-zinc-200">
-                            {formatPrice(product.isOffer && product.offerPrice
-                              ? product.offerPrice
-                              : product.price)}
+                            {formatPrice(
+                              product.isOffer && product.offerPrice
+                                ? product.offerPrice
+                                : product.price,
+                            )}
                           </p>
                           {product.isOffer && (
                             <p className="text-xs md:text-sm text-zinc-500 font-bold line-through">
@@ -534,7 +550,13 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
       {products.length > 0 && (
         <div id="home-products" className="mb-10 md:mb-14">
           <div className="flex items-center justify-between mb-6 px-1">
-            <h2 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100" style={{ fontFamily: "'Comfortaa', cursive", letterSpacing: '-0.02em' }}>
+            <h2
+              className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100"
+              style={{
+                fontFamily: "'Comfortaa', cursive",
+                letterSpacing: "-0.02em",
+              }}
+            >
               Trending Products
             </h2>
           </div>
@@ -544,11 +566,15 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
             cards={products.map((p) => ({
               id: p.id,
               title: p.name,
-              description: p.description || "Discover the best gadgets at VibeGadget.",
+              description:
+                p.description || "Discover the best gadgets at VibeGadget.",
               category: p.category,
               image: p.image,
-              date: p.isOffer && p.offerPrice ? formatPrice(p.offerPrice) : formatPrice(p.price),
-              actionText: "Buy Now"
+              date:
+                p.isOffer && p.offerPrice
+                  ? formatPrice(p.offerPrice)
+                  : formatPrice(p.price),
+              actionText: "Buy Now",
             }))}
           />
         </div>
@@ -566,80 +592,103 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
           <FlashSaleCarousel
             onSeeAll={() => navigate("/flash-sale")}
             onItemClick={(item) => navigate(`/product/${item.id}`)}
-            items={products.filter((p) => p.isOffer).map(p => ({
-              id: p.id,
-              imageUrl: p.images?.[0] || p.image || "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&q=80",
-              name: p.name,
-              price: p.price,
-              originalPrice: (p as any).originalPrice || Math.round(p.price * 1.25),
-              discountPercentage: (p as any).originalPrice ? Math.round((((p as any).originalPrice - p.price) / (p as any).originalPrice) * 100) : 25
-            }))}
+            items={products
+              .filter((p) => p.isOffer)
+              .map((p) => ({
+                id: p.id,
+                imageUrl:
+                  p.images?.[0] ||
+                  p.image ||
+                  "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&q=80",
+                name: p.name,
+                price: p.price,
+                originalPrice:
+                  (p as any).originalPrice || Math.round(p.price * 1.25),
+                discountPercentage: (p as any).originalPrice
+                  ? Math.round(
+                      (((p as any).originalPrice - p.price) /
+                        (p as any).originalPrice) *
+                        100,
+                    )
+                  : 25,
+              }))}
           />
         </div>
       )}
 
       {categoryBanners.length > 0 && (
-          <div className="mb-10 w-full animate-fade-in group px-0 md:px-0">
-                <div className="rounded-[24px] overflow-hidden shadow-sm aspect-[21/9] relative group cursor-pointer mx-0" onClick={() => navigate(categoryBanners[activeCategoryBanner]?.link || '/all-products')}>
-                    <div
-                    className="flex transition-transform duration-700 ease-[cubic-bezier(0.23, 1, 0.32, 1)] h-full"
-                    style={{ transform: `translateX(-${activeCategoryBanner * 100}%)` }}
-                    >
-                    {categoryBanners.map((banner) => (
-                        <div key={banner.id} className="min-w-full h-full relative">
-                        <img src={banner.imageUrl} alt="Banner" className="w-full h-full object-cover" />
-                        </div>
-                    ))}
-                    </div>
-                    {categoryBanners.length > 1 && (
-                      <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-md text-white text-xs font-medium z-10">
-                          {activeCategoryBanner + 1} / {categoryBanners.length}
-                      </div>
-                    )}
+        <div className="mb-10 w-full animate-fade-in group px-0 md:px-0">
+          <div
+            className="rounded-[24px] overflow-hidden shadow-sm aspect-[21/9] relative group cursor-pointer mx-0"
+            onClick={() =>
+              navigate(
+                categoryBanners[activeCategoryBanner]?.link || "/all-products",
+              )
+            }
+          >
+            <div
+              className="flex transition-transform duration-700 ease-[cubic-bezier(0.23, 1, 0.32, 1)] h-full"
+              style={{
+                transform: `translateX(-${activeCategoryBanner * 100}%)`,
+              }}
+            >
+              {categoryBanners.map((banner) => (
+                <div key={banner.id} className="min-w-full h-full relative">
+                  <img
+                    src={banner.imageUrl}
+                    alt="Banner"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
+              ))}
+            </div>
+            {categoryBanners.length > 1 && (
+              <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-md text-white text-xs font-medium z-10">
+                {activeCategoryBanner + 1} / {categoryBanners.length}
+              </div>
+            )}
           </div>
+        </div>
       )}
 
       {/* Partner & Earn Cash (Referral Banner) - Hidden when logged in as requested */}
       {!userData && (
-        <div 
+        <div
           className="mb-8 w-full animate-fade-in flex justify-center px-4"
-          onMouseEnter={() => setReferState('refer-hover')}
-          onMouseLeave={() => setReferState('refer-idle')}
+          onMouseEnter={() => setReferState("refer-hover")}
+          onMouseLeave={() => setReferState("refer-idle")}
         >
-          <div 
+          <div
             onClick={() => {
               navigate("/auth-selector");
-            }} 
+            }}
             className="bg-[#FF6611] rounded-3xl shadow-lg px-6 py-5 relative overflow-hidden flex flex-row items-center justify-between cursor-pointer active:scale-[0.98] transition-transform text-white w-full max-w-none md:max-w-4xl mx-auto min-h-[100px]"
           >
             <div className="flex flex-col space-y-3 z-20 w-2/3">
-                <h3 className="font-extrabold text-lg md:text-xl m-0 leading-tight drop-shadow-sm">
-                  Log in to refer & earn
-                </h3>
-                
-                <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 w-fit px-3 py-1.5 rounded-full shadow-inner shrink-0">
-                    <span className="text-[12px] md:text-[14px] font-bold text-white tracking-tight">
-                      Login to Earn up to {formatPrice(200)}
-                    </span>
-                </div>
+              <h3 className="font-extrabold text-lg md:text-xl m-0 leading-tight drop-shadow-sm">
+                Log in to refer & earn
+              </h3>
+
+              <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 w-fit px-3 py-1.5 rounded-full shadow-inner shrink-0">
+                <span className="text-[12px] md:text-[14px] font-bold text-white tracking-tight">
+                  Login to Earn up to {formatPrice(200)}
+                </span>
+              </div>
             </div>
-            
+
             {/* Mascot Container - strictly inside the section */}
             <div className="absolute right-0 bottom-[-20px] h-[140%] w-[120px] pointer-events-none drop-shadow-xl z-20 flex flex-col justify-end items-center">
-               <div className="transform scale-[0.6] origin-bottom mb-[-10px] w-full flex justify-center">
-                   <VibeMascot state={referState as MascotState} />
-               </div>
+              <div className="transform scale-[0.6] origin-bottom mb-[-10px] w-full flex justify-center">
+                <VibeMascot state={referState as MascotState} />
+              </div>
             </div>
-            
+
             {/* Background waves/decorations */}
             <div className="absolute right-[50px] top-1/2 -translate-y-1/2 rounded-full border border-white/10 w-24 h-24 pointer-events-none" />
             <div className="absolute right-[80px] top-1/2 -translate-y-1/2 rounded-full border border-white/10 w-16 h-16 pointer-events-none z-0" />
           </div>
         </div>
       )}
-
-
 
       {gifBanners.length > 0 && (
         <ThinBanner banner={gifBanners[0]} navigate={navigate} />
@@ -648,39 +697,87 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
       <div className="animate-stagger-3 relative z-10 pt-4">
         {/* Categories Section */}
         <div className="flex justify-between items-center mb-4 px-2">
-           <h2 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100" style={{ fontFamily: "'Comfortaa', cursive", letterSpacing: '-0.02em' }}>
-             Categories
-           </h2>
+          <h2
+            className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100"
+            style={{
+              fontFamily: "'Comfortaa', cursive",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Categories
+          </h2>
         </div>
-        
-         <div className="flex items-center gap-4 overflow-x-auto pt-2 pb-6 px-2 mb-8 scrollbar-hide snap-x">
-          {["All", ...Array.from(new Set(products.map(p => p.category).filter(Boolean)))].map((cat, i) => {
-             let imageUrl = `https://api.dicebear.com/7.x/shapes/svg?seed=${encodeURIComponent(cat)}&backgroundColor=f88c49`;
-             if (cat === "All") {
-                 imageUrl = "https://images.unsplash.com/photo-1550009158-9efff6c97068?w=200&h=200&fit=crop";
-             } else {
-                 const firstProduct = products.find(p => p.category === cat);
-                 if (firstProduct && firstProduct.images && firstProduct.images.length > 0) {
-                     imageUrl = firstProduct.images[0];
-                 }
-             }
-             
-             return (
-               <div key={i} className="flex flex-col items-center gap-2 snap-center shrink-0" onClick={() => { setActiveCategory(cat); document.getElementById('popular-products')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                 <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center p-0.5 cursor-pointer transition-transform ${activeCategory === cat ? 'bg-gradient-to-tr from-[#FFC27A] to-[#FF8C00] scale-110 shadow-md shadow-orange-500/20' : 'bg-transparent border border-zinc-200 dark:border-zinc-800 hover:scale-105'}`}>
-                    <img src={imageUrl} alt={cat} onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/shapes/svg?seed=${encodeURIComponent(cat)}&backgroundColor=f88c49`; }} className="w-full h-full rounded-full object-cover border-[1.5px] border-white dark:border-zinc-950" />
-                 </div>
-                 <span className={`text-[11px] md:text-xs font-semibold ${activeCategory === cat ? 'text-orange-600 dark:text-orange-400' : 'text-zinc-600 dark:text-zinc-400'} text-center w-match truncate max-w-[80px]`}>{cat}</span>
-               </div>
-             );
+
+        <div className="flex items-center gap-4 overflow-x-auto pt-2 pb-6 px-2 mb-8 scrollbar-hide snap-x">
+          {[
+            "All",
+            ...Array.from(
+              new Set(products.map((p) => p.category).filter(Boolean)),
+            ),
+          ].map((cat, i) => {
+            let imageUrl = `https://api.dicebear.com/7.x/shapes/svg?seed=${encodeURIComponent(cat)}&backgroundColor=f88c49`;
+            if (cat === "All") {
+              imageUrl =
+                "https://ui-avatars.com/api/?name=User&background=000&color=fff";
+            } else {
+              const firstProduct = products.find((p) => p.category === cat);
+              if (
+                firstProduct &&
+                firstProduct.images &&
+                firstProduct.images.length > 0
+              ) {
+                imageUrl = firstProduct.images[0];
+              }
+            }
+
+            return (
+              <div
+                key={i}
+                className="flex flex-col items-center gap-2 snap-center shrink-0"
+                onClick={() => {
+                  setActiveCategory(cat);
+                  document
+                    .getElementById("popular-products")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                <div
+                  className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center p-0.5 cursor-pointer transition-transform ${activeCategory === cat ? "bg-gradient-to-tr from-[#FFC27A] to-[#FF8C00] scale-110 shadow-md shadow-orange-500/20" : "bg-transparent border border-zinc-200 dark:border-zinc-800 hover:scale-105"}`}
+                >
+                  <img
+                    src={imageUrl}
+                    alt={cat}
+                    onError={(e) => {
+                      e.currentTarget.src = `https://api.dicebear.com/7.x/shapes/svg?seed=${encodeURIComponent(cat)}&backgroundColor=f88c49`;
+                    }}
+                    className="w-full h-full rounded-full object-cover border-[1.5px] border-white dark:border-zinc-950"
+                  />
+                </div>
+                <span
+                  className={`text-[11px] md:text-xs font-semibold ${activeCategory === cat ? "text-orange-600 dark:text-orange-400" : "text-zinc-600 dark:text-zinc-400"} text-center w-match truncate max-w-[80px]`}
+                >
+                  {cat}
+                </span>
+              </div>
+            );
           })}
         </div>
 
         {/* Accessories Section */}
-        {products.filter(p => ['accessories', 'cover', 'charger', 'cable'].some(word => p.category?.toLowerCase().includes(word))).length > 0 && (
+        {products.filter((p) =>
+          ["accessories", "cover", "charger", "cable"].some((word) =>
+            p.category?.toLowerCase().includes(word),
+          ),
+        ).length > 0 && (
           <div className="mb-10">
             <div className="flex justify-between items-center mb-6 px-2">
-              <h2 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100" style={{ fontFamily: "'Comfortaa', cursive", letterSpacing: '-0.02em' }}>
+              <h2
+                className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100"
+                style={{
+                  fontFamily: "'Comfortaa', cursive",
+                  letterSpacing: "-0.02em",
+                }}
+              >
                 Accessories
               </h2>
               <button
@@ -691,18 +788,35 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
               </button>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-6 lg:gap-8">
-              {products.filter(p => ['accessories', 'cover', 'charger', 'cable'].some(word => p.category?.toLowerCase().includes(word))).slice(0, 4).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+              {products
+                .filter((p) =>
+                  ["accessories", "cover", "charger", "cable"].some((word) =>
+                    p.category?.toLowerCase().includes(word),
+                  ),
+                )
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
             </div>
           </div>
         )}
 
         {/* Gadget Section */}
-        {products.filter(p => ['gadget', 'watch', 'earbud', 'audio'].some(word => p.category?.toLowerCase().includes(word))).length > 0 && (
+        {products.filter((p) =>
+          ["gadget", "watch", "earbud", "audio"].some((word) =>
+            p.category?.toLowerCase().includes(word),
+          ),
+        ).length > 0 && (
           <div className="mb-10">
             <div className="flex justify-between items-center mb-6 px-2">
-              <h2 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100" style={{ fontFamily: "'Comfortaa', cursive", letterSpacing: '-0.02em' }}>
+              <h2
+                className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100"
+                style={{
+                  fontFamily: "'Comfortaa', cursive",
+                  letterSpacing: "-0.02em",
+                }}
+              >
                 Gadgets
               </h2>
               <button
@@ -713,16 +827,32 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
               </button>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-6 lg:gap-8">
-              {products.filter(p => ['gadget', 'watch', 'earbud', 'audio'].some(word => p.category?.toLowerCase().includes(word))).slice(0, 4).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+              {products
+                .filter((p) =>
+                  ["gadget", "watch", "earbud", "audio"].some((word) =>
+                    p.category?.toLowerCase().includes(word),
+                  ),
+                )
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
             </div>
           </div>
         )}
 
         {/* Popular Product Section */}
-        <div id="popular-products" className="flex justify-between items-center mb-6 px-2 pt-4">
-          <h2 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100" style={{ fontFamily: "'Comfortaa', cursive", letterSpacing: '-0.02em' }}>
+        <div
+          id="popular-products"
+          className="flex justify-between items-center mb-6 px-2 pt-4"
+        >
+          <h2
+            className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100"
+            style={{
+              fontFamily: "'Comfortaa', cursive",
+              letterSpacing: "-0.02em",
+            }}
+          >
             Popular Product
           </h2>
           <button
@@ -785,8 +915,6 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
         )}
       </AnimatePresence>
 
-
-
       {gifBanners.length > 2 && (
         <ThinBanner banner={gifBanners[2]} navigate={navigate} />
       )}
@@ -808,25 +936,36 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
       )}
 
       {bottomBanners.length > 0 && (
-          <div className="mb-10 w-full animate-fade-in group px-0 md:px-0">
-                <div className="rounded-[24px] overflow-hidden shadow-sm aspect-[21/9] relative group cursor-pointer mx-0" onClick={() => navigate(bottomBanners[activeBottomBanner]?.link || '/all-products')}>
-                    <div
-                    className="flex transition-transform duration-700 ease-[cubic-bezier(0.23, 1, 0.32, 1)] h-full"
-                    style={{ transform: `translateX(-${activeBottomBanner * 100}%)` }}
-                    >
-                    {bottomBanners.map((banner) => (
-                        <div key={banner.id} className="min-w-full h-full relative">
-                        <img src={banner.imageUrl} alt="Banner" className="w-full h-full object-cover" />
-                        </div>
-                    ))}
-                    </div>
-                    {bottomBanners.length > 1 && (
-                      <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-md text-white text-xs font-medium z-10">
-                          {activeBottomBanner + 1} / {bottomBanners.length}
-                      </div>
-                    )}
+        <div className="mb-10 w-full animate-fade-in group px-0 md:px-0">
+          <div
+            className="rounded-[24px] overflow-hidden shadow-sm aspect-[21/9] relative group cursor-pointer mx-0"
+            onClick={() =>
+              navigate(
+                bottomBanners[activeBottomBanner]?.link || "/all-products",
+              )
+            }
+          >
+            <div
+              className="flex transition-transform duration-700 ease-[cubic-bezier(0.23, 1, 0.32, 1)] h-full"
+              style={{ transform: `translateX(-${activeBottomBanner * 100}%)` }}
+            >
+              {bottomBanners.map((banner) => (
+                <div key={banner.id} className="min-w-full h-full relative">
+                  <img
+                    src={banner.imageUrl}
+                    alt="Banner"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
+              ))}
+            </div>
+            {bottomBanners.length > 1 && (
+              <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-md text-white text-xs font-medium z-10">
+                {activeBottomBanner + 1} / {bottomBanners.length}
+              </div>
+            )}
           </div>
+        </div>
       )}
 
       <CustomSectionEmbed location="home_bottom" />

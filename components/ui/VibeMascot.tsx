@@ -190,29 +190,87 @@ export const VibeMascot: React.FC<MascotProps> = ({
   };
 
   const typingAnimLeft = {
-    "name-empty": { d: [leftArmPath["name-empty"], "M 75 135 Q 50 145 35 145", leftArmPath["name-empty"]], transition: { repeat: Infinity, duration: 0.3 } },
-    "name-typed": { d: [leftArmPath["name-typed"], "M 75 135 Q 50 135 30 140", leftArmPath["name-typed"]], transition: { repeat: Infinity, duration: 0.3 } },
-    email: { d: [leftArmPath.email, "M 75 135 Q 50 130 45 120", leftArmPath.email], transition: { repeat: Infinity, duration: 0.3 } },
-    success: { d: ["M 75 135 Q 45 120 40 85", "M 75 135 Q 35 120 30 85", "M 75 135 Q 45 120 40 85"], transition: { repeat: Infinity, duration: 0.5 } }
+    "name-empty": {
+      d: [
+        leftArmPath["name-empty"],
+        "M 75 135 Q 50 145 35 145",
+        leftArmPath["name-empty"],
+      ],
+      transition: { repeat: Infinity, duration: 0.3 },
+    },
+    "name-typed": {
+      d: [
+        leftArmPath["name-typed"],
+        "M 75 135 Q 50 135 30 140",
+        leftArmPath["name-typed"],
+      ],
+      transition: { repeat: Infinity, duration: 0.3 },
+    },
+    email: {
+      d: [leftArmPath.email, "M 75 135 Q 50 130 45 120", leftArmPath.email],
+      transition: { repeat: Infinity, duration: 0.3 },
+    },
+    success: {
+      d: [
+        "M 75 135 Q 45 120 40 85",
+        "M 75 135 Q 35 120 30 85",
+        "M 75 135 Q 45 120 40 85",
+      ],
+      transition: { repeat: Infinity, duration: 0.5 },
+    },
   };
-  
+
   const typingAnimRight = {
-    "name-empty": { d: [rightArmPath["name-empty"], "M 125 135 Q 150 145 165 145", rightArmPath["name-empty"]], transition: { repeat: Infinity, duration: 0.3, delay: 0.15 } },
-    "name-typed": { d: [rightArmPath["name-typed"], "M 125 135 Q 150 135 170 140", rightArmPath["name-typed"]], transition: { repeat: Infinity, duration: 0.3, delay: 0.15 } },
-    email: { d: [rightArmPath.email, "M 125 135 Q 150 130 155 120", rightArmPath.email], transition: { repeat: Infinity, duration: 0.3, delay: 0.15 } },
-    success: { d: ["M 125 135 Q 155 120 160 85", "M 125 135 Q 165 120 170 85", "M 125 135 Q 155 120 160 85"], transition: { repeat: Infinity, duration: 0.5 } }
+    "name-empty": {
+      d: [
+        rightArmPath["name-empty"],
+        "M 125 135 Q 150 145 165 145",
+        rightArmPath["name-empty"],
+      ],
+      transition: { repeat: Infinity, duration: 0.3, delay: 0.15 },
+    },
+    "name-typed": {
+      d: [
+        rightArmPath["name-typed"],
+        "M 125 135 Q 150 135 170 140",
+        rightArmPath["name-typed"],
+      ],
+      transition: { repeat: Infinity, duration: 0.3, delay: 0.15 },
+    },
+    email: {
+      d: [
+        rightArmPath.email,
+        "M 125 135 Q 150 130 155 120",
+        rightArmPath.email,
+      ],
+      transition: { repeat: Infinity, duration: 0.3, delay: 0.15 },
+    },
+    success: {
+      d: [
+        "M 125 135 Q 155 120 160 85",
+        "M 125 135 Q 165 120 170 85",
+        "M 125 135 Q 155 120 160 85",
+      ],
+      transition: { repeat: Infinity, duration: 0.5 },
+    },
   };
 
   const getArmAnim = (animObj: any, defaultPath: any) => {
-    return animObj[activeState] || { d: defaultPath[activeState] || defaultPath.idle, transition: springTransition };
+    return (
+      animObj[activeState] || {
+        d: defaultPath[activeState] || defaultPath.idle,
+        transition: springTransition,
+      }
+    );
   };
 
   const getHandPosition = (pathString: string) => {
-      // Very basic parser to get the last coordinate of the path.
-      const match = pathString.match(/([\d.]+)\s+([\d.]+)$/);
-      return match ? { cx: parseFloat(match[1]), cy: parseFloat(match[2]) } : null;
-  }
-
+    // Very basic parser to get the last coordinate of the path.
+    const match = pathString.match(/([\d.]+)\s+([\d.]+)$/);
+    return match
+      ? { cx: parseFloat(match[1]), cy: parseFloat(match[2]) }
+      : null;
+  };
 
   const bodyVariant = {
     idle: {
@@ -400,12 +458,16 @@ export const VibeMascot: React.FC<MascotProps> = ({
 
           {/* Pupils */}
           <motion.circle
+            cx="89"
+            cy="62"
             r="2.5"
             fill={cStroke}
             animate={activeState}
             variants={leftPupil}
           />
           <motion.circle
+            cx="111"
+            cy="62"
             r="2.5"
             fill={cStroke}
             animate={activeState}
@@ -603,6 +665,10 @@ export const VibeMascot: React.FC<MascotProps> = ({
             <circle cx="75" cy="135" r="7" fill={cBlue} />
             {/* Outline */}
             <motion.path
+              d={
+                leftArmPath[activeState as keyof typeof leftArmPath] ||
+                leftArmPath.idle
+              }
               animate={getArmAnim(typingAnimLeft, leftArmPath)}
               fill="transparent"
               stroke={cStroke}
@@ -611,6 +677,10 @@ export const VibeMascot: React.FC<MascotProps> = ({
             />
             {/* Inner Arm */}
             <motion.path
+              d={
+                leftArmPath[activeState as keyof typeof leftArmPath] ||
+                leftArmPath.idle
+              }
               animate={getArmAnim(typingAnimLeft, leftArmPath)}
               fill="transparent"
               stroke={cBlue}
@@ -619,19 +689,21 @@ export const VibeMascot: React.FC<MascotProps> = ({
             />
             {/* Hand */}
             {(() => {
-                const anim = getArmAnim(typingAnimLeft, leftArmPath);
-                let pos = getHandPosition(leftArmPath[activeState] || leftArmPath.idle);
-                // Simple workaround: animate cx and cy of the circle based on the activeState path end.
-                return (
-                  <motion.circle
-                     animate={{ cx: pos?.cx || 42, cy: pos?.cy || 150 }}
-                     transition={springTransition}
-                     r="12"
-                     fill={cWhite}
-                     stroke={cStroke}
-                     strokeWidth="2"
-                  />
-                )
+              const anim = getArmAnim(typingAnimLeft, leftArmPath);
+              let pos = getHandPosition(
+                leftArmPath[activeState] || leftArmPath.idle,
+              );
+              // Simple workaround: animate cx and cy of the circle based on the activeState path end.
+              return (
+                <motion.circle
+                  animate={{ cx: pos?.cx || 42, cy: pos?.cy || 150 }}
+                  transition={springTransition}
+                  r="12"
+                  fill={cWhite}
+                  stroke={cStroke}
+                  strokeWidth="2"
+                />
+              );
             })()}
           </motion.g>
 
@@ -639,6 +711,10 @@ export const VibeMascot: React.FC<MascotProps> = ({
             <circle cx="125" cy="135" r="7" fill={cBlue} />
             {/* Outline */}
             <motion.path
+              d={
+                rightArmPath[activeState as keyof typeof rightArmPath] ||
+                rightArmPath.idle
+              }
               animate={getArmAnim(typingAnimRight, rightArmPath)}
               fill="transparent"
               stroke={cStroke}
@@ -647,6 +723,10 @@ export const VibeMascot: React.FC<MascotProps> = ({
             />
             {/* Inner Arm */}
             <motion.path
+              d={
+                rightArmPath[activeState as keyof typeof rightArmPath] ||
+                rightArmPath.idle
+              }
               animate={getArmAnim(typingAnimRight, rightArmPath)}
               fill="transparent"
               stroke={cBlue}
@@ -655,18 +735,20 @@ export const VibeMascot: React.FC<MascotProps> = ({
             />
             {/* Hand */}
             {(() => {
-                const anim = getArmAnim(typingAnimRight, rightArmPath);
-                let pos = getHandPosition(rightArmPath[activeState] || rightArmPath.idle);
-                return (
-                  <motion.circle
-                     animate={{ cx: pos?.cx || 158, cy: pos?.cy || 150 }}
-                     transition={springTransition}
-                     r="12"
-                     fill={cWhite}
-                     stroke={cStroke}
-                     strokeWidth="2"
-                  />
-                )
+              const anim = getArmAnim(typingAnimRight, rightArmPath);
+              let pos = getHandPosition(
+                rightArmPath[activeState] || rightArmPath.idle,
+              );
+              return (
+                <motion.circle
+                  animate={{ cx: pos?.cx || 158, cy: pos?.cy || 150 }}
+                  transition={springTransition}
+                  r="12"
+                  fill={cWhite}
+                  stroke={cStroke}
+                  strokeWidth="2"
+                />
+              );
             })()}
           </motion.g>
         </motion.g>
