@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
           theme_color: "#ffffff",
           background_color: "#ffffff",
           display: "standalone",
-          start_url: "/",
+          start_url: ".",
           icons: [
             {
               src: "https://ui-avatars.com/api/?name=Vibe&background=000&color=fff&size=192",

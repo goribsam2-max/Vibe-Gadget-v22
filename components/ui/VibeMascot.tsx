@@ -256,20 +256,20 @@ export const VibeMascot: React.FC<MascotProps> = ({
   };
 
   const getArmAnim = (animObj: any, defaultPath: any) => {
-    return (
-      animObj[activeState] || {
-        d: defaultPath[activeState] || defaultPath.idle,
-        transition: springTransition,
-      }
-    );
+    const anim = animObj[activeState];
+    if (anim && anim.d) return anim;
+    
+    const fallbackPath = defaultPath[activeState] || defaultPath.idle || "M 75 135 Q 60 145 42 150";
+    return {
+      d: fallbackPath,
+      transition: springTransition,
+    };
   };
 
   const getHandPosition = (pathString: string) => {
-    // Very basic parser to get the last coordinate of the path.
+    if (!pathString || typeof pathString !== 'string') return { cx: 42, cy: 150 };
     const match = pathString.match(/([\d.]+)\s+([\d.]+)$/);
-    return match
-      ? { cx: parseFloat(match[1]), cy: parseFloat(match[2]) }
-      : null;
+    return match ? { cx: parseFloat(match[1]) || 42, cy: parseFloat(match[2]) || 150 } : { cx: 42, cy: 150 };
   };
 
   const bodyVariant = {
@@ -689,14 +689,14 @@ export const VibeMascot: React.FC<MascotProps> = ({
             />
             {/* Hand */}
             {(() => {
-              const anim = getArmAnim(typingAnimLeft, leftArmPath);
               let pos = getHandPosition(
-                leftArmPath[activeState] || leftArmPath.idle,
+                leftArmPath[activeState as keyof typeof leftArmPath] || leftArmPath.idle,
               );
-              // Simple workaround: animate cx and cy of the circle based on the activeState path end.
               return (
                 <motion.circle
-                  animate={{ cx: pos?.cx || 42, cy: pos?.cy || 150 }}
+                  cx={pos.cx}
+                  cy={pos.cy}
+                  animate={{ cx: pos.cx, cy: pos.cy }}
                   transition={springTransition}
                   r="12"
                   fill={cWhite}
@@ -735,13 +735,14 @@ export const VibeMascot: React.FC<MascotProps> = ({
             />
             {/* Hand */}
             {(() => {
-              const anim = getArmAnim(typingAnimRight, rightArmPath);
               let pos = getHandPosition(
-                rightArmPath[activeState] || rightArmPath.idle,
+                rightArmPath[activeState as keyof typeof rightArmPath] || rightArmPath.idle,
               );
               return (
                 <motion.circle
-                  animate={{ cx: pos?.cx || 158, cy: pos?.cy || 150 }}
+                  cx={pos.cx}
+                  cy={pos.cy}
+                  animate={{ cx: pos.cx, cy: pos.cy }}
                   transition={springTransition}
                   r="12"
                   fill={cWhite}
