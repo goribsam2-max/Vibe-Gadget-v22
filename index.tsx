@@ -1,6 +1,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { setupProtection } from './protection';
+setupProtection();
 import App from './App';
 import { RegionProvider } from './components/RegionContext';
 import ErrorBoundary from './components/ErrorBoundary';

@@ -311,6 +311,13 @@ export default function CheckoutPage() {
         return;
     }
 
+    // Rate Limiting to prevent spam orders
+    const lastOrder = localStorage.getItem("vibe_last_order");
+    const now = Date.now();
+    if (lastOrder && now - parseInt(lastOrder) < 1000 * 60) { // 1 minute limit per IP/Browser
+       return notify("You are placing orders too quickly. Please wait a moment.", "error");
+    }
+
     const activeAddress = savedAddresses.find(
       (a) => a.id === selectedAddressId,
     );
@@ -462,6 +469,7 @@ export default function CheckoutPage() {
       } catch(e) {}
 
       localStorage.removeItem("f_cart");
+      localStorage.setItem("vibe_last_order", Date.now().toString());
       navigate(`/success?orderId=${docRef.id}`);
     } catch (err: any) {
       notify("Order failed! Please try again.", "error");

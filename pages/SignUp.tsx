@@ -50,6 +50,15 @@ const SignUp: React.FC = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Rate Limiting to prevent spam accounts
+    const lastSignUp = localStorage.getItem("vibe_last_signup");
+    const now = Date.now();
+    if (lastSignUp && now - parseInt(lastSignUp) < 1000 * 60 * 5) { // 5 minutes limit
+       setMascotFocus("error");
+       return notify("You are doing this too often. Please try again later.", "error");
+    }
+
     if (!agree)
       return notify("Please agree to the Terms & Conditions", "error");
 
@@ -110,6 +119,7 @@ const SignUp: React.FC = () => {
 
       await setDoc(doc(db, "users", user.uid), userData);
 
+      localStorage.setItem("vibe_last_signup", Date.now().toString());
       setMascotFocus("success");
       notify("Account created successfully!", "success");
       setTimeout(() => navigate("/region"), 1000);
